@@ -27,7 +27,7 @@ int main(void) {
 	unsigned char tempC = 0x00; //temp val for C
     	
 	while (1) {
-		tempA = ~PINA 0x0F; //only need bottom set of pins. Negated to account for pull-up mode
+		tempA = ~PINA & 0x0F; //only need bottom set of pins. Negated to account for pull-up mode
 
 		if (tempA == 1 || tempA == 2) {
 			tempC = 0x20; // PC5
