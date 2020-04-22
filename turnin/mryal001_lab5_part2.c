@@ -118,8 +118,8 @@ int main(void) {
 	tempC = 0x00; //initially start with 0
 
     	while (1) {
-		button0 = PINA & 0x01; //PA0
-		button1 = PINA & 0x02; //PA1
+		button0 = ~PINA & 0x01; //PA0, negated to account for pull-up mode
+		button1 = ~PINA & 0x02; //PA1, negated for pull-up mode
 		Tick();
 		PORTC = tempC;
     	}
