@@ -16,7 +16,7 @@ enum States{Start, Initial, Off, Push1, Push2, Push3, Wait, Release} state;
 
 unsigned char button;
 unsigned char tempC = 0x00;
-unsigned char count = 0x00;
+unsigned char count = 0x00; //check from what state the transition is from
 
 
 void Tick () {
@@ -24,7 +24,7 @@ void Tick () {
 		case Start:
 			state = Initial;
 			break;
-		case : Initial
+		case Initial:
 			if (button) {
 				state = wait;	
 			}
@@ -32,17 +32,8 @@ void Tick () {
 				state = Off;
 			}
 			break;
-		case Wait:	
+		case wait:
 			if (!button) {
-				count++;
-				state = Release;
-			}
-			else {
-				state = wait;
-			}
-			break;
-		case Release:
-			if (button) {
 				if (count == 1) {
 					state = Push1;
 				}
@@ -63,7 +54,7 @@ void Tick () {
 				}
 			}
 			else {
-				state = Release;
+				state = wait;
 			}
 			break;
 		case Push1:
@@ -119,8 +110,6 @@ void Tick () {
 			break;
 		case Wait:
 			break;
-		case Release:
-			break;
 		case Push1:
 			tempC = 0x41;
 			break;
@@ -151,7 +140,7 @@ int main(void) {
     	count = 0x00;
 
     	while (1) {
-	    	button = PINA & 0x01;
+	    	button = ~PINA & 0x01; //negated for pull-up
 	    	Tick();
 	    	PORTC = tempC;
     	}
