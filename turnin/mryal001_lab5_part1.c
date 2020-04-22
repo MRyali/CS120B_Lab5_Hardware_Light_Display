@@ -11,7 +11,6 @@
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
-_A
 /*
 unsigned char getBit(unsigned char val, unsigned char k) {
 	return ((val & (0x01 << k)) != 0); //bit logic AND each bit and see if the bit is a 1 or 0 and return
