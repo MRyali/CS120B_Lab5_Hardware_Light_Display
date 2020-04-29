@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section: 21
  *	Assignment: Lab #5  Exercise #3
  *	Exercise Description: [optional - include for your own benefit]
@@ -7,6 +7,9 @@
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
+
+ // Demo: https://drive.google.com/open?id=1-IRdWa6pWVUy4gq9iO81kWTxG-evg8bS
+ 
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
@@ -27,7 +30,7 @@ void Tick () {
 		case Initial:
 			count = 0;
 			if (button) {
-				state = wait;	
+				state = wait;
 			}
 			else {
 				state = Off;
@@ -98,7 +101,7 @@ void Tick () {
                                 state = Off;
                         }
                         break;
-		default: 
+		default:
 			state = Start;
 			break;
 
@@ -136,11 +139,11 @@ void Tick () {
 
 
 int main(void) {
-	DDRA = 0x00; PORTA = 0xFF; //input
+		DDRA = 0x00; PORTA = 0xFF; //input
     	DDRC = 0xFF; PORTC = 0x00; //output
 
     	count = 0x00;
-	tempC = 0x00;
+		tempC = 0x00;
 
     	while (1) {
 	    	button = ~PINA & 0x01; //negated for pull-up
