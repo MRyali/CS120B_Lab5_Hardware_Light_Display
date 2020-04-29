@@ -1,7 +1,7 @@
 /*	Author: Mayur Ryali
  *  Partner(s) Name: 
  *	Lab Section: 21
- *	Assignment: Lab #5  Exercise #1
+ *	Assignment: Lab #5  Exercise #3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -12,50 +12,140 @@
 #include "simAVRHeader.h"
 #endif
 
-/*
-unsigned char getBit(unsigned char val, unsigned char k) {
-	return ((val & (0x01 << k)) != 0); //bit logic AND each bit and see if the bit is a 1 or 0 and return
+enum States{Start, Initial, Off, Push1, Push2, Push3, Push4, wait, Release} state;
+
+unsigned char button;
+unsigned char tempC = 0x00;
+unsigned char count = 0x00; //check from what state the transition is from
+
+
+void Tick () {
+	switch(state) {
+		case Start:
+			state = Initial;
+			break;
+		case Initial:
+			count = 0;
+			if (button) {
+				state = wait;	
+			}
+			else {
+				state = Off;
+			}
+			break;
+		case wait:
+			if (!button) {
+				count++;
+				if (count == 1) {
+					state = Push1;
+				}
+				else if (count == 2) {
+					state = Push2;
+				}
+				else if (count == 3) {
+					state = Push3;
+				}
+				else if (count == 4) {
+					state = Push4;
+				}
+				else if (count == 5) {
+					state = Off;
+				}
+				else {
+					state = Initial;
+				}
+			}
+			else {
+				state = wait;
+			}
+			break;
+		case Push1:
+			if (button) {
+				state = wait;
+			}
+			else {
+				state = Push1;
+			}
+			break;
+		case Push2:if (button) {
+                                state = wait;
+                        }
+                        else {
+                                state = Push2;
+                        }
+                        break;
+		case Push3:
+			if (button) {
+                                state = wait;
+                        }
+                        else {
+                                state = Push3;
+                        }
+                        break;
+		case Push4:
+			if (button) {
+                                state = wait;
+                        }
+                        else {
+                                state = Push4;
+                        }
+                        break;
+		case Off:
+			if (button) {
+                                state = wait;
+                        }
+                        else {
+                                state = Off;
+                        }
+                        break;
+		default: 
+			state = Start;
+			break;
+
+	}
+
+	switch (state) {
+		case Start:
+			break;
+		case Initial:
+			tempC = 0x7F;
+			break;
+		case wait:
+			break;
+		case Push1:
+			tempC = 0x41;
+			break;
+		case Push2:
+			tempC = 0x22;
+			break;
+		case Push3:
+			tempC = 0x14;
+			break;
+		case Push4:
+			tempC = 0x08;
+			break;
+		case Off:
+			tempC = 0x00;
+			break;
+		default:
+			break;
+	}
 }
-*/
+
+
 
 
 int main(void) {
 	DDRA = 0x00; PORTA = 0xFF; //input
-	DDRC = 0xFF; PORTC = 0x00; //output
+    	DDRC = 0xFF; PORTC = 0x00; //output
 
-	unsigned char tempA = 0x00; //temp val for A
-	unsigned char tempC = 0x00; //temp val for C
-    	
-	while (1) {
-		tempA = PINA;
-		tempC = 0x00;
+    	count = 0x00;
+	tempC = 0x00;
 
-		if (tempA == 1 || tempA == 2) {
-			tempC = 0x20; // PC5
-			tempC = tempC | 0x40; //low fuel (PC6)
-		}
-		else if (tempA == 3 || tempA == 4) {
-			tempC = 0x30; // PC5-PC4
-			tempC = tempC | 0x40; //low fuel (PC6)
-		}
-		else if (tempA == 5 || tempA == 6) {
-			tempC = 0x38; // PC5-PC3
-		}
-		else if (tempA >= 7 && tempA <= 9) {
-			tempC = 0x3C; // PC5 - PC2
-		}
-		else if (tempA >= 10 && tempA <= 12) {
-			tempC = 0x3E; // PC5 - PC1
-		}
-		else if (tempA >= 13 && tempA <= 15) {
-			tempC = 0x3F; // PC5 - PC0
-		}
-		else {
-			tempC = 0x00;
-			tempC = tempC | 0x40; // low fuel
-		}
-
-		PORTC = tempC; //set PORTC to tempC
-   	}
-	return 1;
+    	while (1) {
+	    	button = ~PINA & 0x01; //negated for pull-up
+	    	Tick();
+	    	PORTC = tempC;
+    	}
+    	return 1;
 }

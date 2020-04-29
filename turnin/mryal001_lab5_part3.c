@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name:
+ *  Partner(s) Name: 
  *	Lab Section: 21
  *	Assignment: Lab #5  Exercise #3
  *	Exercise Description: [optional - include for your own benefit]
@@ -25,8 +25,9 @@ void Tick () {
 			state = Initial;
 			break;
 		case Initial:
+			count = 0;
 			if (button) {
-				state = wait;
+				state = wait;	
 			}
 			else {
 				state = Off;
@@ -34,6 +35,7 @@ void Tick () {
 			break;
 		case wait:
 			if (!button) {
+				count++;
 				if (count == 1) {
 					state = Push1;
 				}
@@ -96,7 +98,7 @@ void Tick () {
                                 state = Off;
                         }
                         break;
-		default:
+		default: 
 			state = Start;
 			break;
 
@@ -134,10 +136,11 @@ void Tick () {
 
 
 int main(void) {
-		DDRA = 0x00; PORTA = 0xFF; //input
+	DDRA = 0x00; PORTA = 0xFF; //input
     	DDRC = 0xFF; PORTC = 0x00; //output
 
     	count = 0x00;
+	tempC = 0x00;
 
     	while (1) {
 	    	button = ~PINA & 0x01; //negated for pull-up
