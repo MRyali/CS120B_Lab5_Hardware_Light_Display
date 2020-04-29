@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section: 21
  *	Assignment: Lab #5  Exercise #3
  *	Exercise Description: [optional - include for your own benefit]
@@ -12,7 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States{Start, Initial, Off, Push1, Push2, Push3, Wait, Release} state;
+enum States{Start, Initial, Off, Push1, Push2, Push3, Push4, wait, Release} state;
 
 unsigned char button;
 unsigned char tempC = 0x00;
@@ -26,7 +26,7 @@ void Tick () {
 			break;
 		case Initial:
 			if (button) {
-				state = wait;	
+				state = wait;
 			}
 			else {
 				state = Off;
@@ -96,7 +96,7 @@ void Tick () {
                                 state = Off;
                         }
                         break;
-		default: 
+		default:
 			state = Start;
 			break;
 
@@ -108,7 +108,7 @@ void Tick () {
 		case Initial:
 			tempC = 0x7F;
 			break;
-		case Wait:
+		case wait:
 			break;
 		case Push1:
 			tempC = 0x41;
@@ -134,8 +134,8 @@ void Tick () {
 
 
 int main(void) {
-	DDRA = 0x00; PORTA = 0xFF; //input
-    	DDRB = 0xFF; PORTB = 0x00; //output
+		DDRA = 0x00; PORTA = 0xFF; //input
+    	DDRC = 0xFF; PORTC = 0x00; //output
 
     	count = 0x00;
 
