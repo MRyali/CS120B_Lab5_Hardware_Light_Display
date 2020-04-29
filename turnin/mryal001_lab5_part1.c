@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section: 21
  *	Assignment: Lab #5  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
@@ -7,6 +7,9 @@
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
+
+ // Demo: https://drive.google.com/open?id=1-7Opi-NRQx0PVAl0UyBtbd6kLZ1vndp4
+
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
@@ -24,7 +27,7 @@ int main(void) {
 
 	unsigned char tempA = 0x00; //temp val for A
 	unsigned char tempC = 0x00; //temp val for C
-    	
+
 	while (1) {
 		tempA = ~PINA & 0x0F; //only need bottom set of pins. Negated to account for pull-up mode
 

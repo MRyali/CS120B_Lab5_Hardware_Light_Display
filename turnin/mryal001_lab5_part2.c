@@ -1,5 +1,5 @@
 /*	Author: Mayur Ryali
- *  Partner(s) Name: 
+ *  Partner(s) Name:
  *	Lab Section: 21
  *	Assignment: Lab #5  Exercise #2
  *	Exercise Description: [optional - include for your own benefit]
@@ -7,6 +7,9 @@
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
+
+ // Demo: https://drive.google.com/open?id=1-H2FFMoAWYfxVfR9-F5Kz63ZMj1wJPfE
+ 
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
@@ -56,7 +59,7 @@ void Tick() {
 		case Zero: //check which button is pushed during zero state
 			if (button0 && !button1) {
 				state = Inc;
-			}		   
+			}
 			else if (!button0 && button1) {
 				state = Dec;
 			}
